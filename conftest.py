@@ -7,18 +7,18 @@ import pytest
 
 def pytest_addoption(parser):
     parser.addoption('--browser_name',action='store',default ="chrome", help="Choose browser: chrome or firefox")
-    parser.addoption('--language',action='store',default='en', help="Choose languages for browser")
+    parser.addoption('--language',action='store',default='ru', help="Choose languages for browser")
 
 # Согласно пункту №5 - "Достаточно, чтобы код работал только для браузера Сhrome".r Реализовано, только для браузера Chrome
 @pytest.fixture(scope ="function")
 def browser(request):
     browser_name = request.config.getoption("browser_name")
-    language = request.config.getoption("language")
+    u_language = request.config.getoption("language")
     options = Options()
-    options.add_experimental_option('prefs', {'intl.accept_language': language})
+    options.add_experimental_option('prefs', {'intl.accept_languages': u_language})
     if browser_name == "chrome":
         browser=webdriver.Chrome(options=options)
-        browser.implicitly_wait(30)
+        browser.implicitly_wait(4)
         print("Start browser Chrome")
     elif browser_name == "firefox":
         browser = webdriver.Firefox()
